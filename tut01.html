@@ -30,6 +30,28 @@
         }
 
         function create() {
+            // enable Arcade Physics system
+            game.physics.startSystem(Phaser.Physics.ARCADE);
+            // background image
+            game.add.sprite(0, 0, 'sky');
+            // what objects we can jump on
+            platforms = game.add.group();
+            // enable physics for the platforms
+            platforms.enableBody = true;
+            // create ground we can stand on
+            var ground = platforms.create(0, game.world.height - 64, 'ground');
+            // Scale sprite to fit in game
+            ground.scale.setTo(2, 2);
+            // so ground doesn't move when touched
+            ground.body.immovable = true;
+            // create some ledges
+            var ledge = platforms.create(400, 400, 'ground');
+
+            ledge.body.immovable = true;
+
+            ledge = platforms.create(-150, 250, 'ground');
+
+            ledge.body.immovable = true;
             game.add.sprite(0, 0, 'star');
         }
 
