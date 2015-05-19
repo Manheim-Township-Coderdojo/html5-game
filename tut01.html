@@ -76,7 +76,7 @@
             // reset velocity
             if (cursors.left.isDown) {
                 // move left
-                player.body.velocity = -150;
+                player.body.velocity.x = -150;
                 player.animations.play('left');
             }
             else if (cursors.right.isDown) {
