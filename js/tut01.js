@@ -17,18 +17,25 @@ function preload() {
 function create() {
     // enable Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
+
     // background image
     game.add.sprite(0, 0, 'sky');
+
     // what objects we can jump on
     platforms = game.add.group();
+
     // enable physics for the platforms
     platforms.enableBody = true;
+
     // create ground we can stand on
     var ground = platforms.create(0, game.world.height - 64, 'ground');
+
     // Scale sprite to fit in game
     ground.scale.setTo(2, 2);
+
     // so ground doesn't move when touched
     ground.body.immovable = true;
+
     // create some ledges
     var ledge = platforms.create(400, 400, 'ground');
 
@@ -40,18 +47,34 @@ function create() {
 
     // done with world building, time to add the player
     player = game.add.sprite(32, game.world.height - 150, 'dude');
+
     // enable physics on the player
     game.physics.arcade.enable(player);
+
     // give the player a slight bounce
     player.body.bounce.y = 0.2;
     player.body.gravity.y = 300;
     player.body.collideWorldBounds = true;
+
     // add some animations for the guy
     player.animations.add('left', [0, 1, 2, 3], 10, true);
     player.animations.add('right', [5, 6, 7 , 8], 10, true);
 
     // I think this goes here
     cursors = game.input.keyboard.createCursorKeys();
+
+    stars = game.add.group();
+    stars.enableBody = true;
+
+    // make all the stars line up
+    for (var i = 0; i < 12; i++) {
+        // create a star
+        var star = stars.create (i * 70, 0, 'star');
+        // make it gravitate
+        star.body.gravity.y = 6;
+        // randomize that bounce boyee
+        star.body.bounce.y = 0.7 + Math.random() * 0.2;
+    }
 }
 
 function update() {
@@ -79,4 +102,14 @@ function update() {
     if (cursors.up.isDown && player.body.touching.down) {
         player.body.velocity.y = -350;
     }
+
+    // make the stars collide with the platforms
+    game.physics.arcade.collide(stars, platforms);
+    // check if player overlaps with a star
+    game.physics.arcade.overlap(player, stars, collectStar, null, this);
+}
+
+function collectStar (player, star) {
+    // remove the star
+    star.kill();
 }
