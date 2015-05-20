@@ -96,6 +96,7 @@ function update() {
         // stand still
         player.animations.stop();
         player.frame = 4;
+        player.body.velocity.x = 0;
     }
 
     // allow jumping if touching the ground
