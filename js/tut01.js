@@ -6,6 +6,9 @@ var game = new Phaser.Game(800,         // 800px wide
                              create: create,    // name of create function
                              update: update }); // name of update function
 
+var score = 0;
+var scoreText;
+
 function preload() {
     game.load.image('sky', 'assets/sky.png');
     game.load.image('ground', 'assets/platform.png');
@@ -75,6 +78,9 @@ function create() {
         // randomize that bounce boyee
         star.body.bounce.y = 0.7 + Math.random() * 0.2;
     }
+
+    // scoring
+    scoreText = game.add.text(16, 16, 'score: 0', {fontSize: '32px', fill: '#000'});
 }
 
 function update() {
@@ -113,4 +119,8 @@ function update() {
 function collectStar (player, star) {
     // remove the star
     star.kill();
+
+    // update score
+    score += 10;
+    scoreText.text = 'score: ' + score;
 }
